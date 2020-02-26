@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% if not billing_profile %}
+
+<div class="site-section mt-5">
+  <div class="container">
+    <div class='row text-center'>
+
+        <div class='col-12 col-md-6'>
+            <p class='lead rtl'>התחבר</p>
+            {% include 'accounts/snippets/form.html' with form=login_form next_url=request.build_absolute_uri %}
+        </div>
+
+        <div class='col-12 col-md-6 rtl'>
+            <p class='lead rtl'>המשך כאורח</p>
+
+            {% url "guest_register" as guest_register_url %}
+            {% include 'accounts/snippets/form.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
+        </div>
+    </div>
+  </div>
+</div>
+
+    {% else %}
+
+            {% if not object.shipping_address %}
+    <div class="site-section mt-5">
+        <div class="container">
+              <div class='row text-center'>
+                <div class='col-12'>
+                    <p class='lead rtl'>כתובת למשלוח</p>
+                    <hr/>
+                </div>
+                <div class='col-12 rtl'>
+                        {% url "checkout_address_create" as checkout_address_create %}
+                        {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping' %}'
+                 </div>
+                <div class='col-12 rtl'>
+                        {% url 'checkout_address_reuse' as checkout_address_reuse %}
+                        {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+                </div>
+            </div>
+        </div>
+  </div>
+
+
+            {% elif not object.billing_address %}
+      <div class="site-section mt-5">
+          <div class="container">
+              <div class='row text-center'>
+                <div class='col-12'>
+                     <p class='lead rtl'>כתובת חיוב</p>
+                    <hr/>
+                </div>
+                <div class='col-12 rtl'>
+                {% url "checkout_address_create" as checkout_address_create %}
+                {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='billing' %}
+                </div>
+                  <div class='col-12 rtl'>
+                    {% url 'checkout_address_reuse' as checkout_address_reuse %}
+                 {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri  address_type='billing' action_url=checkout_address_reuse %}
+             </div>
+           </div>
+        </div>
+    </div>
+
+            {% else %}
+            <div class="site-section mt-5">
+                <div class="container">
+                    <div class='row text-center'>
+                      <div class='col-12'>
+                           <p class='lead rtl'>סיכום הזמנה</p>
+                          <hr/>
+                <p class = "rtl"> מוצרים: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                <p class = "rtl"> כתובת למשלוח: {{ object.shipping_address.get_address }}</p>
+                <p class = "rtl"> כתובת חיוב: {{ object.shipping_address.get_address }}</p>
+                <p class = "rtl"> סכום ביניים לתשלום: {{ object.cart.total }}</p>
+                <p class = "rtl"> דמי משלוח: {{ object.shipping_total }}</p>
+                <p class = "rtl"> סה"כ לתשלום כולל משלוח: {{ object.total }}</p>
+
+              <form class='form' method='POST' action="">{% csrf_token %}
+                  <button type='submit' class='btn btn-md height-auto px-4 py-3 btn-primary rtl'>בצע הזמנה</button>
+              </form>
+
+                  <!-- <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                  <input type="hidden" name="cmd" value="_s-xclick">
+                  <input type="hidden" name="hosted_button_id" value="NW7HYLZYLPTHL">
+                  <input type="image" src="https://www.paypalobjects.com/he_IL/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - הדרך הקלה והבטוחה יותר לשלם באינטרנט!">
+                  <img alt="" border="0" src="https://www.paypalobjects.com/he_IL/i/scr/pixel.gif" width="1" height="1">
+                  </form> -->
+
+
+                {% endif %}
+          <!-- <div class="site-section">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12 single-content">
+                      <h1 class ="rtl">סיכום הזמנה</h1>
+
+                      <table class="table col-lg-12 single-content rtl">
+                        <tbody>
+                          <tr>
+                            <td> סה"כ סל הקניות: {{ object.cart.total }} ש"ח </td>
+                          </tr>
+
+                            <tr>
+                              <td> דמי משלוח: {{ object.shipping_total }} ש"ח </td>
+                            </tr>
+
+                            <tr>
+                              <td> סה"כ לתשלום: {{ object.total }} ש"ח </td>
+                            </tr>
+
+                        </tbody>
+                      </table>
+
+                      </div>
+                    </div>
+                  </div>
+              </div> -->
+
+          {% endif %}
+
+</div>
+</div>
+{% endblock %}

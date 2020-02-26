@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 single-content">
+
+                <h1 class ="rtl">עגלה</h1>
+
+                {% if cart.products.exists %}
+                <table class="table col-lg-12 single-content rtl">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>שם המוצר</th>
+                      <th>quantity</th>
+                      <th>מחיר</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in items %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td><a href='/products/{{item.product.slug}}/?quantity={{item.quantity}}'>{{ item.product.title }}</a>
+
+                        {% include 'products/snippets/update-cart.html' with product=item.product cart=item.cart in_cart=True %}
+                      </td>
+                      <td>{{item.quantity}}</td>
+                      <td>{{item.get_total}} ש"ח</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                      <td colspan="2"></td>
+                      <td><b>סה"כ </b> {{total}} ש"ח</td>
+                    </tr>
+                    <!-- <tr>
+                      <td colspan="2"></td>
+                      <td><b>סה"כ"</b> {{ cart.total }}</td>
+                    </tr> -->
+                    <tr>
+                      <td colspan="2"></td>
+                      <td><a class='btn btn-md height-auto px-4 py-3 btn-primary rtl' href='{% url "carts:checkout" %}'>לתשלום</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                {% else %}
+                <p class='lead rtl'>עוד לא הוספת מוצרים לעגלה.</p>
+                <p class='lead rtl'>זקוק לעזרה? <a href="{% url 'contact' %}" class="">צור קשר</a></p>
+                <p class = "rtl"><a href="{% url 'products' %}" class="btn btn-md height-auto px-4 py-3 btn-primary rtl">חזור לחנות</a></p>
+                {% endif %}
+
+              </div>
+          </div>
+        </div>
+     </div>
+
+{% endblock %}

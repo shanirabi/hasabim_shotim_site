@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+
+    <!-- <div class="hero-2" style="background-image: url({% static 'images/bottle-pouring-summertime-wine-glass.jpg'%}); height: 400px; ";>
+     <div class="container">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <h2 style = "height: 70px;">צור קשר</h2>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="site-section py-5 custom-border-bottom" data-aos="fade">
+      <div class="container" style="padding-top: 50px;">
+        <div class="row mb-5">
+          <div class="col-md-6">
+            <div class="block-16">
+              <figure>
+                <img src="{{event.image.url}}" alt="Image placeholder" class="img-fluid" style="padding-top: 20px;">
+
+              </figure>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+
+            <div class="site-section-heading pt-3" style ="padding-bottom: 0px">
+              <h2 class="text-black font-heading-serif rtl">{{event.title}}</h2>
+              <h6 class="rtl">{{event.datetime_event}}</h6>
+            </div>
+              <p class = "rtl text-black ">
+                {{event.description}}
+                  <br>
+                  <br>
+                  <p class = "rtl" style="color: #930077">
+                      עלות למשתתף:
+                  </p>
+                  <p class = "rtl">
+                {{event.price}} ש"ח
+              </p>
+              </p>
+              <div class="row rtl">
+
+
+              </div>
+              <a href="#register" class="btn btn-primary py-3 px-5 rtl">לרישום</a>
+          </div>
+        </div>
+      </div>
+      <a name="register"></a>
+    </div>
+{{note}}
+
+    <div class="site-section py-5 custom-border-bottom bg-light" data-aos="fade">
+      <div class="container">
+        <h2 class="text-black font-heading-serif rtl">רישום לפעילות</h2>
+        <h6 class="rtl" style="color: #930077">אנא מלאו את הטופס הנ"ל ונציגנו יחזרו אליכם והשלמת הליך הרישום</h6>
+        <br>
+        {{note}}
+        <form name="register_to_event" action = "register_to_event" method="post">
+          {% csrf_token %}
+            {{eventform}}
+
+            <input type="hidden" id="event_id" name="event_id" value="{{event.id}}">
+            <input type="hidden" id="title" name="title" value="{{event.title}}">
+            <input type="hidden" id="datetime_event" name="datetime_event" value="{{event.datetime_event}}">
+            <input type="hidden" id="price" name="price" value="{{event.price}}">
+            <input type="hidden" id="location" name="location" value="{{event.location}}">
+
+            <label for = "" class = "row rtl">מספר משתתפים: </label>
+
+            <div class="row rtl">
+              <div class="col-md-2 form-group">
+                <input class="form-control form-control-lg"  type= "number" id = "num_of_people" min="1" max="10" name="num_of_people" value="1" placeholder="טלפון">
+            </div>
+          </div>
+
+          <label for = "" class = "row rtl">פרטי המזמין:</label>
+
+              <div class="row rtl">
+                  <div class="col-md-6 form-group">
+                      <input type="text" id="fname" name="fname" class="form-control form-control-lg" placeholder="שם פרטי">
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <!-- <label for = "lname" class = "rtl">שם משפחה:</label> -->
+                      <input type="text" id="lname" name="lname" class="form-control form-control-lg" placeholder="שם משפחה">
+                  </div>
+              </div>
+              <div class="row rtl">
+                  <div class="col-md-6 form-group">
+                      <!-- <label for = "eaddress" class = "rtl">כתובת מייל:</label> -->
+                      <input type="email" id="eaddress" name="eaddress" class="form-control form-control-lg" placeholder="כתובת אימייל">
+                  </div>
+                  <div class="col-md-6 form-group">
+                      <!-- <label for = "eaddress" class = "rtl">טלפון:</label> -->
+                      <input type="text" id="tel" name="tel" class="form-control form-control-lg" placeholder="טלפון">
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-12">
+                      <input type="submit" value="הרשמה" class="btn btn-primary py-3 px-5">
+                  </div>
+              </div>
+        </form>
+
+      </div>
+    </div>
+
+
+{% endblock %}

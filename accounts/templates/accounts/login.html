@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<br>
+
+<div class="site-section py-5 custom-border-bottom" data-aos="fade">
+    <div class="container">
+
+      <p class='lead rtl'>ברוך שובך לאתר הסבים שותים!</p>
+      <p class='lead rtl'>משתמש חדש?<a href="{% url 'register_page' %}" class=""> הרשם כאן </a></p>
+
+      <form method='POST' class = "rtl">
+        <div class="row rtl">
+          {% csrf_token %}
+            <div class="col-md-6 form-group">
+                {{form}}
+                <input type="submit" value="התחבר" class="btn btn-primary py-3 px-5 btndir center">
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+{% endblock %}

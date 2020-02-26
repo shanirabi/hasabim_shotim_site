@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span class="icon-check_circle display-3 text-success"></span>
+            <h2 class="display-3 text-black font-heading-serif ">!תודה</h2>
+            <p class="lead mb-5 ">הרשמתך התקבלה בהצלחה <br> נציגנו יחזרו אליך בהקדם </p>
+            <p class="lead mb-5 "></p>
+            <p><a href="{% url 'homepage' %}" class="btn btn-md height-auto px-4 py-3 btn-primary">לעמוד הבית</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {% endblock %}

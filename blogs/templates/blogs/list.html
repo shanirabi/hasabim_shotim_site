@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+
+    <div class="hero-2" style="background-image: url({% static 'images/grapes-vineyard-wine-sky.jpg'%})";>
+     <div class="container">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <h2 >הבלוג שלנו</h2>
+            <!-- <span class="sub-title">הסבים שותים מציעה מגוון יינות ומשקאות אלכוהולים איכותים במחירים אטרקטיבים</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section mt-5">
+      <div class="container">
+
+        {% for blog in blogs %}
+
+        <div class="row">
+
+          <div class="d-flex align-items-center" style="width: 600px; margin-left: 270px; margin-right: 270px;">
+
+            <div class="wine_v_1 text-center pb-4">
+              <a href="{% url 'blog_detail' blog_id=blog.id %}" class="thumbnail d-block mb-4"><img src="{{blog.image.url}}" alt="Image" class="img-fluid"></a>
+              <div>
+                <h3 class="heading mb-1 rtl-center"><a href="{% url 'blog_detail' blog_id=blog.id %}">{{ blog.title }}</a></h3>
+                <span class="heading-2 rtl"><a href="{% url 'blog_detail' blog_id=blog.id %}">   משך קריאה: {{blog.time_to_read_min}} דקות</a></span>
+              </div>
+
+
+              <div class="wine-actions">
+                    <h3 class="heading-2 rtl-center"><a href="#">{{ blog.title }}</a></h3>
+                    <p class = "rtl-center" style="margin-bottom: 30px"><a href="{% url 'blog_detail' blog_id=blog.id %}">{{ blog.snippet }}</a></p>
+                    <a href="{% url 'blog_detail' blog_id=blog.id %}" class="btn add"><span class="icon-book mr-3"></span>לקריאה</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+    <!-- <div class="hero-2" style="background-image: url({% static 'images/hero_2.jpg'%});">
+     <div class="container">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <span class="sub-title">הסבים שותים מציעה מגוון יינות ומשקאות אלכוהולים איכותים במחירים אטרקטיבים</span>
+            <h2>Wines For Everyone</h2>
+          </div>
+        </div>
+      </div>-->
+
+
+
+
+{% endblock %}

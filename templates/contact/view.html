@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <div class="hero-2" style="background-image: url({% static 'images/bottle-pouring-summertime-wine-glass.jpg'%}); height: 400px; ";>
+     <div class="container">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <h2 style = "height: 70px;">צור קשר</h2>
+            <!-- <span class="sub-title">הסבים שותים מציעה מגוון יינות ומשקאות אלכוהולים איכותים במחירים אטרקטיבים</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="site-section py-5 custom-border-bottom" data-aos="fade">
+      <div class="container">
+        <h3 class = "rtl">{{note}}</h3>
+        <br>
+        <div class="">
+          <div class="col-md-6">
+            <div class="block-16"></div>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="">
+
+            <form name="contactform" method="post" onsubmit="return validateForm()">
+              {% csrf_token %}
+              <div class="row rtl">
+                  <div class="col-md-6 form-group">
+                      {{form}}
+                      <input type="submit" value="שלח הודעה" class="btn btn-primary py-3 px-5 btndir center">
+                </div>
+              </div>
+            </form>
+
+            <!-- <form name="contactform" method="post" onsubmit="return validateForm()">
+              {% csrf_token %}
+                  <div class="row rtl">
+                      <div class="col-md-6 form-group">
+                          <input type="text" id="fname" name="fname" class="form-control form-control-lg" placeholder="שם פרטי">
+                      </div>
+                      <div class="col-md-6 form-group">
+                          <input type="text" id="lname" name="lname" class="form-control form-control-lg" placeholder="שם משפחה">
+                      </div>
+                  </div>
+                  <div class="row rtl">
+                      <div class="col-md-6 form-group">
+                          <input type="text" id="eaddress" name="eaddress" class="form-control form-control-lg" placeholder="כתובת אימייל">
+                      </div>
+                      <div class="col-md-6 form-group">
+                          <input type="text" id="tel" name="tel" class="form-control form-control-lg" placeholder="טלפון">
+                      </div>
+                  </div>
+                  <div class="row rtl">
+                      <div class="col-md-12 form-group">
+                          <textarea name="message" id="message" cols="30" rows="10" class="form-control" placeholder="הודעה"></textarea>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-12">
+                          <input type="submit" value="שלח הודעה" class="btn btn-primary py-3 px-5">
+                      </div>
+                  </div>
+            </form> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section py-5 custom-border-bottom bg-light" data-aos="fade">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-6">
+            <div class="block-16">
+              <figure>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3393.937801289946!2d35.102461999999996!3d31.717594000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1502db06430280b7%3A0x92441b24f2e8e39e!2z15TXodeR15nXnSDXqdeV16rXmded!5e0!3m2!1siw!2sil!4v1580785311878!5m2!1siw!2sil" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+              </figure>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <p class = "rtl">
+              <h4 class = "rtl">שעות פתיחה:</h4>
+              <p class = "rtl">ימים א-ג ו-ה' בין 16:30-19:00
+                  <br>
+                יום ו' וערבי חג בין 10:30-13:00
+                </p>
+              <h4 class = "rtl">דרכי הגעה:</h4>
+              <p class = "rtl">
+              מכביש 375 נכנסים בכניסה המזרחית של צור הדסה לשד' הרי יהודה. במעגל התנועה הראשון עולים לכיוון שכונה הותיקה ברח' יסמין. מצד ימין עשרים וחמישה מטרים מעל מעגל התנועה יש שלט המכוון למרתף.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,16 @@
+
+
+<div class="site-section py-5 custom-border-bottom" data-aos="fade">
+    <div class="container rtl">
+
+<form method='POST' action='{% if action_url %}{{ action_url }}{% else %}{% url "login_page" %}{% endif %}'>
+  {% csrf_token %}
+    {% if next_url %}
+    <input type='hidden' name='next' value='{{ next_url }}' />
+    {% endif %}
+  {{ form }}
+  <input type="submit" value="התחבר" class="btn btn-primary py-3 px-5 btndir center rtl">
+</form>
+
+</div>
+</div>
