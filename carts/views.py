@@ -99,7 +99,7 @@ def checkout_home(request):
             del request.session["billing_address_id"]
         if billing_address_id or shipping_address_id:
             order_obj.save()
-            request.session['order_id'] = order_obj.order_id
+
 
     if request.method == "POST":
         "check that order is done"
@@ -108,7 +108,7 @@ def checkout_home(request):
             # order_obj.mark_paid()
             request.session['cart_items'] = 0
             # del request.session['cart_id']
-            return redirect("carts:payment")
+            return redirect("carts:payment", order_id=order_obj.order_id)
     context = {
         "object": order_obj,
         "billing_profile": billing_profile,
@@ -121,9 +121,8 @@ def checkout_home(request):
     return render(request, "carts/checkout.html", context)
 
 
-def payment(request):
-    order_id = request.session.get('order_id')
-    order = get_object_or_404(Order, order_id='c0mt1ur5ul')
+def payment(request, order_id):
+    order = get_object_or_404(Order, order_id=str(order_id))
     host = request.get_host()
  
     paypal_dict = {
