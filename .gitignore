@@ -105,5 +105,5 @@ venv.bak/
 *.ipynb
 .vscode/
 .vscode
-settings.py
+
 node_modules
