@@ -139,6 +139,9 @@ def payment(request, order_id):
     }
  
     form = PayPalPaymentsForm(initial=paypal_dict)
+    if form.is_valid():
+        form.save()
+        order.mark_paid()
     return render(request, 'carts/payment.html', {'order': order, 'form': form})
 
 
