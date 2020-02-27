@@ -13,6 +13,10 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 
+from django.views.decorators.csrf import csrf_exempt
+
+from django.http import HttpResponse
+
 
 # def cart_create(user=None):
 #     cart_obj = Cart.objects.create(user=None)
@@ -95,15 +99,16 @@ def checkout_home(request):
             del request.session["billing_address_id"]
         if billing_address_id or shipping_address_id:
             order_obj.save()
+            request.session['order_id'] = order_obj.order_id
 
     if request.method == "POST":
         "check that order is done"
         is_done = order_obj.check_done()
         if is_done:
-            order_obj.mark_paid()
+            # order_obj.mark_paid()
             request.session['cart_items'] = 0
-            del request.session['cart_id']
-            return redirect("carts:success")
+            # del request.session['cart_id']
+            return redirect("carts:payment")
     context = {
         "object": order_obj,
         "billing_profile": billing_profile,
@@ -113,8 +118,36 @@ def checkout_home(request):
         "address_qs": address_qs,
     }
 
-
     return render(request, "carts/checkout.html", context)
+
+
+def payment(request):
+    order_id = request.session.get('order_id')
+    order = get_object_or_404(Order, order_id='c0mt1ur5ul')
+    host = request.get_host()
+ 
+    paypal_dict = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': str(order.total),
+        'item_name': 'Order {}'.format(order.id),
+        'invoice': str(order.id),
+        'currency_code': 'USD',
+        'notify_url': 'http://{}{}'.format(host,
+                                           reverse('paypal-ipn')),
+        'return_url': 'http://{}{}'.format(host,
+                                           reverse('success')),
+        # 'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
+    }
+ 
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, 'carts/payment.html', {'order': order, 'form': form})
+
+
+ 
+@csrf_exempt
+def payment_canceled(request):
+    return render(request, 'carts/cancelled.html')
+
 
 def checkout_done_view(request):
     return render(request, "carts/checkout-done.html", {})

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+ 
+{% block title %}Make Payment{% endblock %}
+ 
+{% block content %}
+    <div style="margin-top: 200px; margin-left: 200px;">
+        <h4>Pay with PayPal</h4>
+            {{ form.render }}
+    </div>
+{% endblock %}
