@@ -38,6 +38,7 @@ urlpatterns = [
     path('products/', include("products.urls")),
     path('cart/', include('carts.urls')),
     path('events/', include('events.urls')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
     path('blog/', blog_list, name="blog_list"),
     path('blog/<int:blog_id>', blog_detail, name='blog_detail'),
     path('vendors/', vendors_list, name="vendors_list"),
