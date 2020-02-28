@@ -71,9 +71,7 @@ def login_page(request):
 
 def logout_request(request):
     logout(request)
-    print(request, "Logged out successfully!")
     return redirect("/")
-    return render(request, "homepage.html")
 
 
 User = get_user_model()
