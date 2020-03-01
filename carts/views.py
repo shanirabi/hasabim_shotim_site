@@ -135,6 +135,7 @@ def payment(request, order_id):
                                            reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host,
                                            reverse('success')),
+        "currency_code": "ILS",
         # 'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
     }
  
