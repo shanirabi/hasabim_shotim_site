@@ -107,7 +107,7 @@ def checkout_home(request):
         if is_done:
             # order_obj.mark_paid()
             request.session['cart_items'] = 0
-            # del request.session['cart_id']
+            del request.session['cart_id']
             return redirect("carts:payment", order_id=order_obj.order_id)
     context = {
         "object": order_obj,
