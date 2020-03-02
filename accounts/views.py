@@ -50,6 +50,7 @@ def login_page(request):
 
 
 User = get_user_model()
+
 def register_page(request):
     form = RegisterForm(request.POST or None)
     context = {
@@ -62,5 +63,6 @@ def register_page(request):
         password  = form.cleaned_data.get("password")
         new_user  = User.objects.create_user(username, email, password)
         print(new_user)
+        return render(request, "accounts/register_success.html")
 
     return render(request, "accounts/register.html", context)

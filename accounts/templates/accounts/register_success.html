@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="site-section mt-5">
+  <div class="container">
+      <div class='col-6 mx-auto py-5 text-center'>
+      <h1 class='rtl-center'>הרשמתך בוצעה בהצלחה!</h1>
+      <p class = "rtl-center"><a href="{% url 'login_page' %}" class="btn btn-md height-auto px-4 py-3 btn-primary rtl">התחבר לאתר</a></p>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
