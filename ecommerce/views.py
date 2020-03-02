@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-
 from .forms import ContactForm, LoginForm, RegisterForm
 from contact.models import Contact
+from vendors.models import Vendor
 
 def about(request):
     context = {
@@ -13,7 +13,10 @@ def about(request):
     return render(request, "about.html", context)
 
 def homepage(request):
-    return render(request, "homepage.html")
+    vendors = Vendor.objects.all()
+    return render(request, "homepage.html",{'vendors':vendors})
+
+    # return render(request, "homepage.html")
 
 def contact(request):
     contact_form = ContactForm()
