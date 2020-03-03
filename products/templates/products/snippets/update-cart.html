@@ -1,4 +1,4 @@
-<form method='POST' action='{% url "carts:update" %}' class="form"> {% csrf_token %}
+<form method='POST' action='{% url "carts:update" %}' class="form rtl"> {% csrf_token %}
     <input type='hidden' name='product_id' value='{{ product.id }}' />
 
     {% if in_cart %}
@@ -7,21 +7,27 @@
         <div class='input-group mb-3' style='max-width: 200px;'>
 
              {% if quantity %}
-                 <div class='input-group-append'>
-                     <button class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>
-                 </div>
+
+             <div class='input-group-append'>
+                 <button class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>
+             </div>
+
+
                  <input type='text' name='number' class='form-control text-center border mr-0' value='{{quantity}}' placeholder=''
                  aria-label='Example text with button addon' aria-describedby='button-addon1'>
+
+
                  <div class='input-group-prepend'>
                      <button class='btn btn-outline-primary js-btn-plus' type='button'>&plus;</button>
                  </div>
-                 <button type='submit'  class='buy-now btn btn-sm height-auto px-4 py-3 btn-primary'>Update</button>
              {% else %}
-                 <div class='input-group-append'>
-                     <button class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>
-                 </div>
+               <div class='input-group-append'>
+                   <button class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>
+               </div>
+
                  <input type='text' name='number' class='form-control text-center border mr-0' value='1' placeholder=''
                  aria-label='Example text with button addon' aria-describedby='button-addon1'>
+
                  <div class='input-group-prepend'>
                      <button class='btn btn-outline-primary js-btn-plus' type='button'>&plus;</button>
                  </div>
@@ -29,10 +35,17 @@
 
          </div>
         {% if product in cart.products.all %}
-            In cart
-            <button type='submit' class='btn btn-link' name='remove'>להסיר?</button>
+        <div class ="row rtl">
+          <button type='submit'  class='px-3 py-2 btn-primary'>עדכון כמות</button>
+        </div>
+        <br>
+        <!-- <div class="font-montserrat">  המוצר בעגלה </div> -->
+
+
+        <p class='lead rtl'>המוצר בעגלה<button type='submit' class='btn btn-link rtl' name='remove'>תרצה להסיר?</button></p>
+
         {% else %}
-            <button type='submit'  class='buy-now btn btn-sm height-auto px-4 py-3 btn-primary'>הוסף לעגלה</button>
+            <button type='submit'  class='px-3 py-2 btn-primary'>הוסף לעגלה</button>
         {% endif %}
     {% endif %}
 </form>
