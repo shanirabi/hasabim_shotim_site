@@ -16,6 +16,8 @@ class ProductFilter(django_filters.FilterSet):
         ('wine', 'יין'),
         ('beer', 'בירה'),
         ('alcohol', 'אלכוהול'),
+        ('other', 'אחר'),
+
     )
     ordering_price = django_filters.ChoiceFilter(label=" סדר לפי מחיר ", choices=CHOICES, method='order_by_price')
     type = django_filters.ChoiceFilter(label="סוג מוצר", choices=TYPE_CHOICES)

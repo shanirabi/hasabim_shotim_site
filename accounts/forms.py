@@ -89,14 +89,14 @@ class RegisterForm(forms.Form):
         username = self.cleaned_data.get('username')
         qs = User.objects.filter(username=username)
         if qs.exists():
-            raise forms.ValidationError("Username is taken")
+            raise forms.ValidationError("שם משתמש תפוס, נא הזן שם משתמש אחר")
         return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         qs = User.objects.filter(email=email)
         if qs.exists():
-            raise forms.ValidationError("email is taken")
+            raise forms.ValidationError("כתובת המייל תפוסה, נא הזן כתובת אחרת")
         return email
 
     def clean(self):
@@ -104,5 +104,5 @@ class RegisterForm(forms.Form):
         password = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('password2')
         if password2 != password:
-            raise forms.ValidationError("Passwords must match.")
+            raise forms.ValidationError("סיסמאות לא זהות, אנא ודא שהזנת סיסמה זהה")
         return data

@@ -50,6 +50,7 @@ TYPE_CHOICES = (
     ('wine', 'Wine'),
     ('beer', 'Beer'),
     ('alcohol', 'Alcohol'),
+    ('other', 'Other'),
 )
 class Product(models.Model):
     title           = models.CharField(max_length=120)
@@ -58,7 +59,7 @@ class Product(models.Model):
     grapes_type     = models.CharField(max_length=200, null=True, blank=True)
     alcohol_pre     = models.CharField(max_length=6, null=True, blank=True)
     type            = models.CharField(max_length=200, choices=TYPE_CHOICES,blank=True)
-    slug            = models.SlugField(blank=True, unique=True)
+    slug            = models.SlugField(unique=True)
     description     = models.TextField()
     price           = models.DecimalField(decimal_places=2, max_digits=20, default=39.99)
     image           = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
