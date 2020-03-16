@@ -5,6 +5,11 @@ from .forms import ContactForm, LoginForm, RegisterForm
 from contact.models import Contact
 from vendors.models import Vendor
 
+
+def terms(request):
+    return render(request, "terms.html")
+
+
 def about(request):
     context = {
         "title":"About Page",
@@ -17,6 +22,7 @@ def homepage(request):
     return render(request, "homepage.html",{'vendors':vendors})
 
     # return render(request, "homepage.html")
+
 
 def contact(request):
     contact_form = ContactForm()

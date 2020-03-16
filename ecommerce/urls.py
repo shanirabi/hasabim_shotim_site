@@ -22,7 +22,7 @@ from carts.views import cart_home, cart_update, checkout_done_view
 from events.views import register_to_event
 from blogs.views import blog_list, blog_detail
 # from partners.views import partners_list
-from .views import homepage, contact, about, logout_request
+from .views import homepage, contact, about, logout_request, terms
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 from vendors.views import vendors_list
 
@@ -35,6 +35,7 @@ urlpatterns = [
     path('register/', register_page, name = "register_page"),
     path('contact/', contact, name = "contact"),
     path('about/', about, name="about"),
+    path('terms/', terms, name="terms"),
     path('products/', include("products.urls")),
     path('cart/', include('carts.urls')),
     path('events/', include('events.urls')),
