@@ -20,7 +20,7 @@
                     <tr>
                       <th>#</th>
                       <th>שם המוצר</th>
-                      <th>quantity</th>
+                      <th>כמות</th>
                       <th>מחיר</th>
                     </tr>
                   </thead>
@@ -37,16 +37,16 @@
                     </tr>
                     {% endfor %}
                     <tr>
-                      <td colspan="2"></td>
-                      <td><b>סה"כ </b> {{total}} ש"ח</td>
+                      <td></td>
+                      <td><b>סה"כ </b></td>
+                      <td></td>
+                      <td>{{total}} ש"ח</td>
                     </tr>
-                    <!-- <tr>
-                      <td colspan="2"></td>
-                      <td><b>סה"כ"</b> {{ cart.total }}</td>
-                    </tr> -->
+
                     <tr>
                       <td colspan="2"></td>
                       <td><a class='btn btn-md height-auto px-4 py-3 btn-primary rtl' href='{% url "carts:checkout" %}'>לתשלום</a></td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
