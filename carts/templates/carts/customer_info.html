@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="site-section mt-5">
+    <div class="container">
+        <div class='row text-center'>
+            <div class='col-12'>
+               <p class='lead rtl'>אנא השאר פרטים ואנו ניצור איתך קשר לצורך השלמת ההזמנה </p>
+
+                <p class = "rtl"> סה"כ סכום הזמנה (לא כולל משלוח): {{object.cart.total}} ש"ח</p>
+
+                <form name="form" method="post">
+                  {% csrf_token %}
+                  <div class="row rtl">
+                      <div class="col-md-6 form-group">
+                          {% for field in form %}
+                            <label>  {{field.label_tag}} </label>
+                            {{field}}
+                          {% endfor %}
+                          <br>
+                          <br>
+
+                          <input type="submit" value="שלח הזמנה" class="btn btn-primary py-3 px-5 btndir center">
+                    </div>
+                  </div>
+                </form>
+
+          </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

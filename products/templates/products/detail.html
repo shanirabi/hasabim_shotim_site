@@ -30,12 +30,20 @@
           </div>
           <div class="col-lg-5 ml-auto">
             <h2 class="text-primary rtl">על המוצר:</h2>
+            {% if object.description %}
             <p class="rtl font-weight-bold">תיאור:</p>
             <p class="rtl">{{object.description}}</p>
+            {% endif %}
+
+            {% if object.grapes_type %}
             <p class="font-weight-bold rtl">זנים:</p>
             <p class="rtl">{{object.grapes_type}}</p>
+            {% endif %}
+
+            {% if object.alcohol_pre %}
             <p class="rtl font-weight-bold">אחוז אלכוהול:</p>
             <p class="rtl">{{object.alcohol_pre}}</p>
+            {% endif %}
 
             <div class="mb-5">
 

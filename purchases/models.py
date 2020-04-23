@@ -30,16 +30,18 @@ PAYMENTS_TYPES = (
 
 # Create your models here.
 class Purchase(models.Model):
-    purchase_date       = models.DateField(blank=True)
-    vendor              = models.ForeignKey(Vendor, max_length=200, null = True, blank=True, on_delete=models.CASCADE)
-    product             = models.ForeignKey(Product,max_length=200, null = True,on_delete=models.CASCADE)
+    purchase_date       = models.DateField()
+    vendor              = models.ForeignKey(Vendor, max_length=200, on_delete=models.CASCADE)
+    product             = models.ForeignKey(Product,max_length=200,on_delete=models.CASCADE)
     quantity            = models.IntegerField()
     price               = models.DecimalField(decimal_places=2, max_digits=20)
-    total_amount        = models.DecimalField(decimal_places=2, max_digits=20, blank=True, unique=True)
+    # total_amount        = models.DecimalField(decimal_places=2, max_digits=20, blank=True, unique=True)
     payment_method      = models.CharField(max_length=200, choices=PAYMENTS_TYPES)
     actual_payment_date = models.DateField(blank=True)
     receipt_copy        = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     notes               = models.TextField(blank=True)
 
-    # def __str__(self):
-    #     return self.vendor
+    def get_total(self):
+        return self.purchase.price * self.quantity
+
+    total_cost = property(get_total)

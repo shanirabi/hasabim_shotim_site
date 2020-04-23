@@ -4,8 +4,7 @@ from .models import Purchase
 
 
 class PurchaseAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'purchase_date', 'vendor','product','quantity','price', 'total_amount','payment_method','actual_payment_date','notes']
-    class Meta:
-        model = Purchase
+    list_display = ['id', 'purchase_date', 'vendor','product','quantity','price','payment_method','actual_payment_date','notes']
+    readonly_fields = ('total_cost',)
 
 admin.site.register(Purchase, PurchaseAdmin)

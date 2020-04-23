@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # 'partners',
     'contact',
     'orders',
+    'ordersweb',
     'accounts',
     'billing',
     'addresses',

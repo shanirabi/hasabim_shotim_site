@@ -6,6 +6,8 @@ from accounts.forms import LoginForm, GuestForm
 from billing.models import BillingProfile
 from accounts.models import GuestEmail
 from addresses.forms import AddressForm
+from ordersweb.models import OrderWeb
+from ordersweb.forms import OrderWebForm
 
 from decimal import Decimal
 from paypal.standard.forms import PayPalPaymentsForm
@@ -31,11 +33,11 @@ def cart_home(request):
     item_obj = CartItems.objects.filter(cart=cart_obj)
     total = 0
     for item in item_obj:
+        print(item.product, item.quantity,item.get_total())
         total += item.get_total()
 
     cart_obj.total=total
     cart_obj.save()
-
     return render(request, "carts/home.html", {"cart": cart_obj, "items": item_obj, "total": total})
 
 def cart_update(request):
@@ -76,6 +78,7 @@ def cart_update(request):
 def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)
     order_obj = None
+
     if cart_created or cart_obj.products.count() == 0:
         return redirect("carts:home")
 
@@ -120,11 +123,55 @@ def checkout_home(request):
 
     return render(request, "carts/checkout.html", context)
 
+######
+def customer_info(request):
+    form = OrderWebForm()
+    cart_obj, cart_created = Cart.objects.new_or_get(request)
+    item_obj = CartItems.objects.filter(cart=cart_obj)
+
+    # for item in item_obj:
+    #     print(item.product, item.quantity,item.get_total())
+
+    order_obj = None
+    if cart_created or cart_obj.products.count() == 0:
+        return redirect("carts:home")
+    else:
+        order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
+
+    if request.method == "POST":
+                # print(request.POST.get('first_name'))
+                # print(request.POST.get('last_name'))
+                id = cart_obj.id
+                first_name = request.POST["first_name"]
+                last_name = request.POST["last_name"]
+                email = request.POST["email"]
+                phone_number = request.POST["phone_number"]
+                address_line_1 = request.POST["address_line_1"]
+                # address_line_2 = request.POST["address_line_2"]
+                city = request.POST["city"]
+                # country = request.POST["country"]
+                postal_code = request.POST["postal_code"]
+                cart =  Cart.objects.get(id=id)
+                order_cost      = cart_obj.total
+                delivery_method = request.POST["delivery_method"]
+                #save to db
+                order_web = OrderWeb(first_name=first_name, last_name=last_name, email=email, phone_number = phone_number,
+                                    address_line_1=address_line_1,city=city,postal_code=postal_code, cart=cart, order_cost=order_cost,
+                                    delivery_method= delivery_method)
+                order_web.save()
+
+
+                #empty the cart
+                request.session['cart_items'] = 0
+                del request.session['cart_id']
+    return render(request, "carts/customer_info.html", {"object": order_obj, 'form': form })
+
+######
 
 def payment(request, order_id):
     order = get_object_or_404(Order, order_id=str(order_id))
     host = request.get_host()
- 
+
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': str(order.total),
@@ -138,7 +185,7 @@ def payment(request, order_id):
         "currency_code": "ILS",
         # 'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
     }
- 
+
     form = PayPalPaymentsForm(initial=paypal_dict)
     if form.is_valid():
         form.save()
@@ -146,7 +193,7 @@ def payment(request, order_id):
     return render(request, 'carts/payment.html', {'order': order, 'form': form})
 
 
- 
+
 @csrf_exempt
 def payment_canceled(request):
     return render(request, 'carts/cancelled.html')

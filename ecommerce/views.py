@@ -1,9 +1,12 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
+from django.core.mail import send_mail
+from django.conf import settings
 from .forms import ContactForm, LoginForm, RegisterForm
 from contact.models import Contact
 from vendors.models import Vendor
+
 
 
 def terms(request):
@@ -41,14 +44,28 @@ def contact(request):
                 tel = request.POST["tel"]
                 message = request.POST["message"]
 
-                print(request.POST.get('fname'))
-                print(request.POST.get('lname'))
-                print(request.POST.get('eaddress'))
-                print(request.POST.get('tel'))
-                print(request.POST.get('message'))
+                # print(request.POST.get('fname'))
+                # print(request.POST.get('lname'))
+                # print(request.POST.get('eaddress'))
+                # print(request.POST.get('tel'))
+                # print(request.POST.get('message'))
 
                 contact_reg_info = Contact(fname=fname, lname=lname, eaddress=eaddress, tel = tel, message=message)
                 contact_reg_info.save()
+                #email alert
+                subject = 'צור קשר - אתר הסבים שותים'
+
+                alert_message = "{alert_fname}\n{alert_lname}\n{alert_eaddress}\n{alert_tel}\n{alert_message}".format(
+                        alert_fname = "שם פרטי: " + fname,
+                        alert_lname = "שם משפחה: " + lname,
+                        alert_eaddress = "אימייל: " + eaddress,
+                        alert_tel = "טלפון: " + tel,
+                        alert_message= "הודעה: " + message,
+                    )
+                from_email = settings.EMAIL_HOST_USER
+                to_list_alert = ['rabbi.shani@gmail.com']
+                send_mail(subject, alert_message, from_email, to_list_alert, fail_silently = True)
+
                 note = "פנייתך התקבלה, אנו ניצור איתך קשר בהקדם"
     return render(request, "contact/view.html", {'form':contact_form ,'note':note})
 
