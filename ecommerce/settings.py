@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'l(ce8&7i^ruxvy1i@wer-i_j5&c+=mttrx2-+8dy3kl)uq95g#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_HOST_USER = 'hasabim@zohomail.com'
