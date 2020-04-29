@@ -8,17 +8,17 @@ from .models import Product
 
 from .filters import ProductFilter
 
-class ProductFeaturedListView(ListView):
-    template_name = "products/list.html"
-
-    def get_queryset(self, *args, **kwargs):
-        request = self.request
-        return Product.objects.all().featured()
-
-
-class ProductFeaturedDetailView(DetailView):
-    queryset = Product.objects.all().featured()
-    template_name = "products/featured-detail.html"
+# class ProductFeaturedListView(ListView):
+#     template_name = "products/list.html"
+#
+#     def get_queryset(self, *args, **kwargs):
+#         request = self.request
+#         return Product.objects.all().featured()
+#
+#
+# class ProductFeaturedDetailView(DetailView):
+#     queryset = Product.objects.all().featured()
+#     template_name = "products/featured-detail.html"
 
     # def get_queryset(self, *args, **kwargs):
     #     request = self.request
@@ -39,13 +39,12 @@ class ProductListView(ListView):
         return Product.objects.all()
 
 
-
-    def product_list_view(request):
-        queryset = Product.objects.all()
-        context = {
-            'object_list': queryset
-        }
-        return render(request, "products/list.html", context)
+    # def product_list_view(request):
+    #     queryset = Product.objects.all()
+    #     context = {
+    #         'object_list': queryset
+    #     }
+    #     return render(request, "products/list.html", context)
 
     def get_context_data(self,  **kwargs):
         context = super().get_context_data( **kwargs)

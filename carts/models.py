@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django_pandas.io import *
 
 from django.conf import settings
 from django.db import models

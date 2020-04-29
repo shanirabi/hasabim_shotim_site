@@ -27,8 +27,8 @@ class ProductQuerySet(models.query.QuerySet):
     def active(self):
         return self.filter(active=True)
 
-    def featured(self):
-        return self.filter(featured=True, active=True)
+    # def featured(self):
+    #     return self.filter(featured=True, active=True)
 
 class ProductManager(models.Manager):
     def get_queryset(self):
@@ -37,8 +37,8 @@ class ProductManager(models.Manager):
     def all(self):
         return self.get_queryset().active()
 
-    def featured(self): #Product.objects.featured()
-        return self.get_queryset().featured()
+    # def featured(self): #Product.objects.featured()
+    #     return self.get_queryset().featured()
 
     def get_by_id(self, id):
         qs = self.get_queryset().filter(id=id) # Product.objects == self.get_queryset()
@@ -56,6 +56,7 @@ class Product(models.Model):
     title           = models.CharField(max_length=120)
     vendor          = models.ForeignKey(Vendor, max_length=200, blank=True,null = True, on_delete=models.CASCADE)
     year            = models.IntegerField(default='2020',blank=True)
+    ml              = models.IntegerField(default = '750', blank=True,null =True)
     grapes_type     = models.CharField(max_length=200, null=True, blank=True)
     alcohol_pre     = models.CharField(max_length=6, null=True, blank=True)
     type            = models.CharField(max_length=200, choices=TYPE_CHOICES,blank=True)
@@ -63,9 +64,8 @@ class Product(models.Model):
     description     = models.TextField()
     price           = models.DecimalField(decimal_places=2, max_digits=20, default=39.99)
     image           = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    featured        = models.BooleanField(default=False)
-
     active          = models.BooleanField(default=True)
+    # featured        = models.BooleanField(default=False)
 
 
 

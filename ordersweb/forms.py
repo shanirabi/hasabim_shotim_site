@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-
+from django.utils.safestring import mark_safe
 
 DELIVERY_METHOD_CHOICES = (
     ('pickup', 'איסוף עצמי'),
@@ -58,15 +58,15 @@ class OrderWebForm(forms.Form):
             label= 'רחוב'
             )
 
-    address_line_2 = forms.CharField(
-            widget=forms.TextInput(
-                attrs={
-                    "class": "form-control form-control-lg col-md-12 form-group",
-                    "placeholder": ""
-                    }
-                ),
-            label='מספר בית'
-            )
+    # address_line_2 = forms.CharField(
+    #         widget=forms.TextInput(
+    #             attrs={
+    #                 "class": "form-control form-control-lg col-md-12 form-group",
+    #                 "placeholder": ""
+    #                 }
+    #             ),
+    #         label='מספר בית'
+    #         )
 
     city = forms.CharField(
             widget=forms.TextInput(
@@ -112,12 +112,12 @@ class OrderWebForm(forms.Form):
             choices=DELIVERY_METHOD_CHOICES,
             )
 
-    age_above_18 = forms.CharField(
+    approve_terms_and_age_above_18 = forms.CharField(
             widget=forms.CheckboxInput(
                 attrs={
                     "class": "checkbox",
                     "placeholder": ""
                     }
                 ),
-            label='אני מאשר/ת שאני מעל גיל 18'
+            label= mark_safe('אני מאשר/ת שקראתי את  <a href="terms" target="_blank">התקנון</a> ושאני מעל גיל 18 ' )
             )

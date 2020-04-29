@@ -33,7 +33,7 @@ class OrderWeb(models.Model):
     city            = models.CharField(max_length=120, null=True, blank=True)
     country         = models.CharField(max_length=120, default='ישראל', null=True, blank=True)
     postal_code     = models.CharField(max_length=120, null=True, blank=True)
-    age_above_18    = models.BooleanField(default=True)
+    approve_terms_and_age_above_18    = models.BooleanField(default=True)
     shipping_cost   = models.DecimalField(default=0, max_digits=100, decimal_places=2, null=True, blank=True)
     order_cost      = models.DecimalField(default=0, max_digits=100, decimal_places=2, null=True, blank=True)
     shipping_date   = models.DateTimeField(null=True, blank=True)

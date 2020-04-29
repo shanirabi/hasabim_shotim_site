@@ -45,6 +45,11 @@
             <p class="rtl">{{object.alcohol_pre}}</p>
             {% endif %}
 
+            {% if object.ml %}
+            <p class="rtl font-weight-bold">מ"ל:</p>
+            <p class="rtl">{{object.ml}}</p>
+            {% endif %}
+
             <div class="mb-5">
 
                 {% include 'products/snippets/update-cart.html' with product=object cart=cart quantity=quantity %}

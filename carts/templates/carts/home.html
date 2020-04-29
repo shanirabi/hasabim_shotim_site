@@ -2,10 +2,7 @@
 
 {% load static %}
 
-
 {% block content %}
-
-
 
     <div class="site-section">
       <div class="container">
@@ -28,7 +25,7 @@
                     {% for item in items %}
                     <tr>
                       <th scope="row">{{ forloop.counter }}</th>
-                      <td><a href='/products/{{item.product.slug}}/?quantity={{item.quantity}}'>{{ item.product.title }}</a>
+                      <td><a href='/products/{{item.product.slug}}/?quantity={{item.quantity}}'>{{ item.product.title }} {{ item.product.year }}, {{ item.product.vendor}}</a>
 
                         {% include 'products/snippets/update-cart.html' with product=item.product cart=item.cart in_cart=True %}
                       </td>

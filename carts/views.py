@@ -1,4 +1,15 @@
+from decimal import Decimal
+import pandas as pd
+from paypal.standard.forms import PayPalPaymentsForm
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from django.conf import settings
+from django_pandas.io import *
+from django.core.mail import send_mail
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import Cart, Product, CartItems
 from addresses.models import Address
 from orders.models import Order
@@ -9,15 +20,8 @@ from addresses.forms import AddressForm
 from ordersweb.models import OrderWeb
 from ordersweb.forms import OrderWebForm
 
-from decimal import Decimal
-from paypal.standard.forms import PayPalPaymentsForm
-from django.urls import reverse
-from django.shortcuts import get_object_or_404
-from django.conf import settings
 
-from django.views.decorators.csrf import csrf_exempt
 
-from django.http import HttpResponse
 
 
 # def cart_create(user=None):
@@ -32,8 +36,10 @@ def cart_home(request):
     #WITH CALCULATED TOTAL
     item_obj = CartItems.objects.filter(cart=cart_obj)
     total = 0
+    # df = read_frame(item_obj, fieldnames=['product', 'quantity', 'quantity_total'])
+    # print(df)
     for item in item_obj:
-        print(item.product, item.quantity,item.get_total())
+        # print(item.product, item.quantity,item.get_total()
         total += item.get_total()
 
     cart_obj.total=total
@@ -73,7 +79,66 @@ def cart_update(request):
         # return redirect(product_obj.get_absolute_url())
     return redirect("carts:home")
 
+def customer_info(request):
+    form = OrderWebForm()
+    cart_obj, cart_created = Cart.objects.new_or_get(request)
+    item_obj = CartItems.objects.filter(cart=cart_obj)
 
+    # for item in item_obj:
+    #     print(item.product, item.quantity,item.get_total())
+    df = read_frame(item_obj, fieldnames=['product', 'quantity', 'quantity_total'])
+    print(df)
+    order_obj = None
+    if cart_created or cart_obj.products.count() == 0:
+        return redirect("carts:home")
+    else:
+        order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
+
+    if request.method == "POST":
+                id = cart_obj.id
+                first_name = request.POST["first_name"]
+                last_name = request.POST["last_name"]
+                email = request.POST["email"]
+                phone_number = request.POST["phone_number"]
+                address_line_1 = request.POST["address_line_1"]
+                # address_line_2 = request.POST["address_line_2"]
+                city = request.POST["city"]
+                country = request.POST["country"]
+                postal_code = request.POST["postal_code"]
+                cart =  Cart.objects.get(id=id)
+                order_cost      = cart_obj.total
+                delivery_method = request.POST["delivery_method"]
+                #save to db
+                order_web = OrderWeb(first_name=first_name, last_name=last_name, email=email, phone_number = phone_number,
+                                    address_line_1=address_line_1,city=city,postal_code=postal_code, cart=cart, order_cost=order_cost,
+                                    delivery_method= delivery_method)
+                order_web.save()
+
+                print(df)
+                #email alert
+                subject = 'הזמנה חדשה מאתר הסבים שותים'
+
+                alert_message = "{alert_fname}\n{alert_lname}\n{alert_eaddress}\n{alert_tel}\n{alert_address}\n{alert_delivery_method}\n\n{order_details}".format(
+                        alert_fname = "שם פרטי: " + first_name,
+                        alert_lname = "שם משפחה: " + last_name,
+                        alert_eaddress = "אימייל: " + email,
+                        alert_tel = "טלפון: " + phone_number,
+                        alert_address= "כתובת: " + address_line_1 + " " +", " + city + ", " + country + " " + postal_code,
+                        alert_delivery_method = "צורת אספקה:" + delivery_method,
+                        order_details = df,
+
+
+                    )
+                from_email = settings.EMAIL_HOST_USER
+                to_list_alert = ['rabbi.shani@gmail.com']
+                send_mail(subject, alert_message, from_email, to_list_alert, fail_silently = True)
+
+                #empty the cart
+                request.session['cart_items'] = 0
+                del request.session['cart_id']
+    return render(request, "carts/customer_info.html", {"object": order_obj, 'form': form })
+
+###### relevant for authentication and payment ######
 
 def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)
@@ -122,51 +187,6 @@ def checkout_home(request):
     }
 
     return render(request, "carts/checkout.html", context)
-
-######
-def customer_info(request):
-    form = OrderWebForm()
-    cart_obj, cart_created = Cart.objects.new_or_get(request)
-    item_obj = CartItems.objects.filter(cart=cart_obj)
-
-    # for item in item_obj:
-    #     print(item.product, item.quantity,item.get_total())
-
-    order_obj = None
-    if cart_created or cart_obj.products.count() == 0:
-        return redirect("carts:home")
-    else:
-        order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
-
-    if request.method == "POST":
-                # print(request.POST.get('first_name'))
-                # print(request.POST.get('last_name'))
-                id = cart_obj.id
-                first_name = request.POST["first_name"]
-                last_name = request.POST["last_name"]
-                email = request.POST["email"]
-                phone_number = request.POST["phone_number"]
-                address_line_1 = request.POST["address_line_1"]
-                # address_line_2 = request.POST["address_line_2"]
-                city = request.POST["city"]
-                # country = request.POST["country"]
-                postal_code = request.POST["postal_code"]
-                cart =  Cart.objects.get(id=id)
-                order_cost      = cart_obj.total
-                delivery_method = request.POST["delivery_method"]
-                #save to db
-                order_web = OrderWeb(first_name=first_name, last_name=last_name, email=email, phone_number = phone_number,
-                                    address_line_1=address_line_1,city=city,postal_code=postal_code, cart=cart, order_cost=order_cost,
-                                    delivery_method= delivery_method)
-                order_web.save()
-
-
-                #empty the cart
-                request.session['cart_items'] = 0
-                del request.session['cart_id']
-    return render(request, "carts/customer_info.html", {"object": order_obj, 'form': form })
-
-######
 
 def payment(request, order_id):
     order = get_object_or_404(Order, order_id=str(order_id))
