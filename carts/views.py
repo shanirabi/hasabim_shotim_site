@@ -124,18 +124,19 @@ def customer_info(request):
                         alert_eaddress = "אימייל: " + email,
                         alert_tel = "טלפון: " + phone_number,
                         alert_address= "כתובת: " + address_line_1 + " " +", " + city + ", " + country + " " + postal_code,
-                        alert_delivery_method = "צורת אספקה:" + delivery_method,
+                        alert_delivery_method = "צורת אספקה: " + delivery_method,
                         order_details = df,
 
 
                     )
                 from_email = settings.EMAIL_HOST_USER
-                to_list_alert = ['rabbi.shani@gmail.com']
+                to_list_alert = ['rabbi.shani@gmail.com', 'info@hasabimshotim.com']
                 send_mail(subject, alert_message, from_email, to_list_alert, fail_silently = True)
 
                 #empty the cart
                 request.session['cart_items'] = 0
                 del request.session['cart_id']
+                return redirect("carts:success")
     return render(request, "carts/customer_info.html", {"object": order_obj, 'form': form })
 
 ###### relevant for authentication and payment ######

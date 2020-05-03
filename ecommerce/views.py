@@ -63,7 +63,7 @@ def contact(request):
                         alert_message= "הודעה: " + message,
                     )
                 from_email = settings.EMAIL_HOST_USER
-                to_list_alert = ['rabbi.shani@gmail.com']
+                to_list_alert = ['rabbi.shani@gmail.com', 'info@hasabimshotim.com']
                 send_mail(subject, alert_message, from_email, to_list_alert, fail_silently = True)
 
                 note = "פנייתך התקבלה, אנו ניצור איתך קשר בהקדם"
