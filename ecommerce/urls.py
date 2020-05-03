@@ -36,7 +36,6 @@ urlpatterns = [
     path('contact/', contact, name = "contact"),
     path('about/', about, name="about"),
     path('cart/customer_info/terms', terms, name="terms"),
-    path('terms/', terms, name="terms"),
     path('products/', include("products.urls")),
     path('cart/', include('carts.urls')),
     path('events/', include('events.urls')),
