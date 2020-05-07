@@ -55,7 +55,7 @@ TYPE_CHOICES = (
 class Product(models.Model):
     title           = models.CharField(max_length=120)
     vendor          = models.ForeignKey(Vendor, max_length=200, blank=True,null = True, on_delete=models.CASCADE)
-    year            = models.IntegerField(default='2020',blank=True)
+    year            = models.IntegerField(default='2020',blank=True, null=True)
     ml              = models.IntegerField(default = '750', blank=True,null =True)
     grapes_type     = models.CharField(max_length=200, null=True, blank=True)
     alcohol_pre     = models.CharField(max_length=6, null=True, blank=True)
