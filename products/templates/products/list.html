@@ -29,14 +29,14 @@
             <div class="wine_v_1 text-center pb-4">
               <a href="{{ obj.get_absolute_url }}" class="thumbnail d-block mb-4"><img src="{{obj.image.url}}"  alt="Image" class="img-fluid" style="height: 350px"></a>
               <div>
-                <h3 class="heading mb-1 rtl-center"><a href="{{ obj.get_absolute_url }}">{{ obj.title }}, {{obj.year}}</a></h3>
+                <h3 class="heading mb-1 rtl-center"><a href="{{ obj.get_absolute_url }}">{{ obj.title }} {% if obj.year %}, {{ obj.year}} {% endif %}</a></h3>
                 <h5 class="heading mb-2 rtl-center"><a href="{{ obj.get_absolute_url }}"> {{ obj.vendor }} </a></h5>
                 <span class="d-block rtl-center ">{{ obj.price }} ש"ח</span>
               </div>
 
               <div class="wine-actions">
 
-                <h3 class="heading-2 rtl-center"><a href="{{ obj.get_absolute_url }}">{{ obj.title }}, {{obj.year}}</a></h3>
+                <h3 class="heading-2 rtl-center"><a href="{{ obj.get_absolute_url }}">{{ obj.title }} {% if obj.year %}, {{ obj.year}} {% endif %}</a></h3>
                 <h5 class="heading mb-4 rtl-center"><a href="{{ obj.get_absolute_url }}">  {{obj.vendor}}</a></h5>
                 <p class="d-block rtl-center"><a href="{{ obj.get_absolute_url }}">{{ obj.price }} ש"ח</a></p>
                 <a href="{{ obj.get_absolute_url }}" class="btn add rtl-center">צפה במוצר<span class="icon-shopping-bag mr-3 rtl-center"></span></a>
