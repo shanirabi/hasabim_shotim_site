@@ -38,7 +38,7 @@ def register_to_event(request):
 
         event_id =  request.POST["event_id"] + " :קוד פעילות "
         title = " שם הפעילות: " + request.POST["title"]
-        datetime_event = request.POST["datetime_event"] + " :תאריך הפעילו ת"
+        datetime_event = request.POST["datetime_event"] + " :תאריך הפעילות"
         location = " מיקום הפעילות: " + request.POST["location"]
         price = request.POST["price"] + " :עלות הפעילות למשתתף "
         num_of_people = request.POST.get('num_of_people', 0) + " :מספר משתתפים "
@@ -48,10 +48,10 @@ def register_to_event(request):
         phone_num = request.POST['tel'] + " :טלפון "
         form_values = '\n'.join([event_id, title, location, datetime_event, price, num_of_people, first_name, last_name, phone_num, email])
         is_paid = False
-        send_mail('הרשמה חדשה לפעילות',
+        send_mail('אתר הסבים שותים - הרשמה חדשה לפעילות',
         form_values,
         settings.EMAIL_HOST_USER,
-        ['rabbi.shani@gmail.com'],
+        ['rabbi.shani@gmail.com', 'info@hasabimshotim.com'],
         fail_silently=False)
         note = "הרשמתך התקבלה. נציגנו יחזרו אליך בקרוב. תודה!"
     return redirect("events:thank_you")
