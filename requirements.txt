@@ -11,7 +11,7 @@ idna==2.9
 paypal==1.2.5
 pbr==5.4.4
 phonenumbers==8.11.2
-Pillow==7.0.0
+Pillow==8.2.0
 pytz==2019.3
 requests==2.23.0
 six==1.14.0
